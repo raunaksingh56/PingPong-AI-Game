@@ -13,26 +13,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout code from the repository
+      # Step 1: Checkout code
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step 2: Set up Python 3.8
+      # Step 2: Set up Python
       - name: Set up Python 3.8
         uses: actions/setup-python@v4
         with:
           python-version: '3.8'
 
-      # Step 3: Install dependencies including Cython
+      # Step 3: Install dependencies
       - name: Install dependencies
         run: |
           sudo apt update
-          sudo apt install -y python3-pip python3-dev build-essential git
+          sudo apt install -y python3-pip python3-dev build-essential git libstdc++6
           pip install --upgrade pip
-          pip install cython
           pip install kivy buildozer
 
-      # Step 4: Cache Buildozer dependencies
+      # Step 4: Cache Python packages
       - name: Cache Buildozer dependencies
         uses: actions/cache@v4
         with:
@@ -41,12 +40,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
 
-      # Step 5: Run Buildozer to build the APK
+      # Step 5: Build APK
       - name: Build APK using Buildozer
         run: |
           buildozer android debug
 
-      # Step 6: Upload the generated APK as an artifact
+      # Step 6: Upload artifact
       - name: Upload APK as artifact
         uses: actions/upload-artifact@v4
         with:
