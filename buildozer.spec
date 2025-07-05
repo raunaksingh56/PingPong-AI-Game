@@ -7,7 +7,7 @@ source.include_exts = py,png,jpg,kv,atlas
 version = 1.0
 requirements = kivy,pygame,numpy
 
-# ✅ Force working versions
+# ✅ Android build settings (working versions)
 android.api = 31
 android.ndk = 23b
 android.sdk = 24.4.1
