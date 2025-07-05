@@ -3,32 +3,33 @@ name: Build Android APK
 on:
   push:
     branches:
-      - main  # Trigger the build on push to the main branch
+      - main
   pull_request:
     branches:
-      - main  # Optionally, trigger on pull request targeting the main branch
+      - main
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Run the build on the latest Ubuntu runner
+    runs-on: ubuntu-latest
 
     steps:
       # Step 1: Checkout code from the repository
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step 2: Set up Python 3.8 (or your preferred version)
+      # Step 2: Set up Python 3.8
       - name: Set up Python 3.8
         uses: actions/setup-python@v4
         with:
           python-version: '3.8'
 
-      # Step 3: Install dependencies and build tools (Kivy, Buildozer, etc.)
+      # Step 3: Install dependencies including Cython
       - name: Install dependencies
         run: |
           sudo apt update
           sudo apt install -y python3-pip python3-dev build-essential git
           pip install --upgrade pip
+          pip install cython
           pip install kivy buildozer
 
       # Step 4: Cache Buildozer dependencies
@@ -43,7 +44,7 @@ jobs:
       # Step 5: Run Buildozer to build the APK
       - name: Build APK using Buildozer
         run: |
-          buildozer android debug  # Or use 'release' for a production build
+          buildozer android debug
 
       # Step 6: Upload the generated APK as an artifact
       - name: Upload APK as artifact
