@@ -29,6 +29,7 @@ jobs:
             openjdk-17-jdk libstdc++6
           pip install --upgrade pip
           pip install Cython kivy buildozer
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       - name: Install Android SDK with AIDL
         run: |
