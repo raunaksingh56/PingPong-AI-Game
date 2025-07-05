@@ -15,11 +15,11 @@ jobs:
     steps:
       # Step 1: Checkout code from the repository
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       # Step 2: Set up Python 3.8 (or your preferred version)
       - name: Set up Python 3.8
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: '3.8'
 
@@ -31,9 +31,9 @@ jobs:
           pip install --upgrade pip
           pip install kivy buildozer
 
-      # Step 4: Cache Buildozer dependencies (to speed up subsequent builds)
+      # Step 4: Cache Buildozer dependencies
       - name: Cache Buildozer dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
@@ -47,7 +47,7 @@ jobs:
 
       # Step 6: Upload the generated APK as an artifact
       - name: Upload APK as artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: pong-ai-game-apk
           path: bin/*.apk
