@@ -6,7 +6,6 @@ source.dir = .
 source.include_exts = py,png,jpg,kv,atlas
 version = 1.0
 requirements = kivy,pygame,numpy
-icon.filename = %(source.dir)/icon.png
 
 # Android build settings (IMPORTANT!)
 android.api = 31
