@@ -9,5 +9,3 @@ The goal of the game is for the AI to learn to play Ping Pong by interacting wit
 - **AI Learning**: The AI starts with random movements and learns through **Q-Learning** to become stronger over time.
 - **Gameplay**: A traditional Ping Pong game where you control the left paddle, and the AI controls the right paddle.
 - **Mobile Support**: The game is packaged for **Android** using **Kivy** and **Buildozer**.
-
-## Project Structure
