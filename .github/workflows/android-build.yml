@@ -21,12 +21,15 @@ jobs:
         with:
           python-version: '3.8'
 
-      - name: Install dependencies
+      - name: Install system dependencies
         run: |
           sudo apt update
           sudo apt install -y \
             python3-pip python3-dev build-essential git zip unzip wget \
             openjdk-17-jdk libstdc++6
+
+      - name: Install Python packages
+        run: |
           pip install --upgrade pip
           pip install Cython kivy buildozer
           echo "$HOME/.local/bin" >> $GITHUB_PATH
@@ -34,11 +37,12 @@ jobs:
       - name: Install Android SDK with AIDL
         run: |
           mkdir -p $HOME/android-sdk/cmdline-tools
-          cd $HOME/android-sdk/cmdline-tools
+          cd $HOME/android-sdk
           wget https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -O tools.zip
           unzip tools.zip -d cmdline-tools
-          mv cmdline-tools $HOME/android-sdk/cmdline-tools/latest
-          yes | $HOME/android-sdk/cmdline-tools/latest/bin/sdkmanager --sdk_root=$HOME/android-sdk \
+          mkdir -p cmdline-tools/latest
+          mv cmdline-tools/cmdline-tools/* cmdline-tools/latest/
+          yes | cmdline-tools/latest/bin/sdkmanager --sdk_root=$HOME/android-sdk \
             "platforms;android-31" \
             "platform-tools" \
             "build-tools;30.0.3" \
