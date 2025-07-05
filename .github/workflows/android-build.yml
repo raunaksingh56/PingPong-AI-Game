@@ -1,0 +1,54 @@
+name: Build Android APK
+
+on:
+  push:
+    branches:
+      - main  # Trigger the build on push to the main branch
+  pull_request:
+    branches:
+      - main  # Optionally, trigger on pull request targeting the main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Run the build on the latest Ubuntu runner
+
+    steps:
+      # Step 1: Checkout code from the repository
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Set up Python 3.8 (or your preferred version)
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
+      # Step 3: Install dependencies and build tools (Kivy, Buildozer, etc.)
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y python3-pip python3-dev build-essential git
+          pip install --upgrade pip
+          pip install kivy buildozer
+
+      # Step 4: Cache Buildozer dependencies (to speed up subsequent builds)
+      - name: Cache Buildozer dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      # Step 5: Run Buildozer to build the APK
+      - name: Build APK using Buildozer
+        run: |
+          buildozer android debug  # Or use 'release' for a production build
+
+      # Step 6: Upload the generated APK as an artifact
+      - name: Upload APK as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: pong-ai-game-apk
+          path: bin/*.apk
+          
